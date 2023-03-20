@@ -32,8 +32,6 @@ def calculate_prices(item, user_id, purchase_list):
 
 	# find purchases of the user
 	purchase_amount = get_app_purchases_by_userid(item.app_id, user_id, purchase_list)
-	final_price = 0
-	reward = 0
 	percentage = get_percentage(purchase_amount)
 
 	final_price = round(item.price * percentage/100, 2)
