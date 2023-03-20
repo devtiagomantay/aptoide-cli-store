@@ -28,20 +28,20 @@ class App(BaseModel):
 class Dev(BaseModel):
 	id: int
 	name: str
-	balance: int
+	balance: float
 
 	def sell_item(self, value):
-		self.balance += value
+		self.balance = round(self.balance + value, 2)
 
 
 class User(BaseModel):
 	id: int
 	name: str
-	balance: int
+	balance: float
 
 	def purchase_app(self, value):
 		if self.balance >= value:
-			self.balance = self.balance - value
+			self.balance = round(self.balance - value, 2)
 		else:
 			print('User have no founds. Balance: ', self.balance)
 			raise
@@ -50,7 +50,7 @@ class User(BaseModel):
 class Store(BaseModel):
 	id: int
 	name: str
-	balance: int
+	balance: float
 
 	def sell_item(self, value):
-		self.balance += value
+		self.balance = round(self.balance + value, 2)
