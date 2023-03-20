@@ -60,7 +60,7 @@ def purchase(pi):
 							item_id=item.id,
 							app_id=app.id,
 							user_id=user.id,
-							value=item.price,
+							value=values['price'],
 							date=datetime.now(),
 							reward=values['rewards'])
 		purchase_list_.append(purchase)
