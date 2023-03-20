@@ -2,7 +2,6 @@ from models import *
 from helper import *
 from logic import calculate_prices
 
-
 # global variables
 users_list_ = []
 app_list_ = []
@@ -22,7 +21,7 @@ def create_data():
 	global purchase_list_
 
 	store = Store(id=1, name='Aptoide', balance=10.0)
-	user1 = User(id=1, name='Bob', balance=10.0)
+	user1 = User(id=1, name='Bob', balance=100.0)
 	user2 = User(id=2, name='Bill', balance=10.0)
 	dev1 = Dev(id=1, name='Billy', balance=10.0)
 	dev2 = Dev(id=2, name='Joe', balance=10.0)
@@ -56,7 +55,7 @@ def purchase(pi):
 		store.sell_item(values['store'])
 		dev.sell_item(values['dev'])
 
-		purchase = Purchase(id=len(purchase_list_)+1,
+		purchase = Purchase(id=len(purchase_list_) + 1,
 							item_id=item.id,
 							app_id=app.id,
 							user_id=user.id,
@@ -67,7 +66,8 @@ def purchase(pi):
 		print(purchase)
 
 	except Exception as e:
-		print(e)
+		# log error
+		pass
 
 
 if __name__ == '__main__':
