@@ -1,3 +1,6 @@
+from helper import get_app_purchases_by_userid
+
+
 def get_percentage(purchase_amount):
 	"""
 	Get percentage of prices with/without reward
