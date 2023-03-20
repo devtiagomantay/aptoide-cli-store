@@ -1,7 +1,5 @@
-from datetime import datetime
 from models import *
 from helper import *
-from logic import calculate_prices
 
 
 # global variables
@@ -39,8 +37,36 @@ def create_data():
 	dev_list = [dev1, dev2]
 
 
-def purchase(purchase_info):
-	pass
+def purchase(pi):
+	"""
+	Calculates the final price with or without reward of the app and the share of the developer and store
+	:param pi: dict
+	:return: obj class Purchase
+	"""
+	try:
+		app = search_app(pi['app'], app_list_)
+		item = get_item(pi['item'], item_list_)
+		user = get_user(pi['user'], users_list_)
+		dev = get_dev_by_appid(app.id, app_list_, dev_list)
+
+		values = calculate_prices(item, dev.id, purchase_list_)
+
+		user.purchase_app(values['price'])
+		store.sell_item(values['store'])
+		dev.sell_item(values['dev'])
+
+		purchase = Purchase(id=len(purchase_list_)+1,
+							item_id=item.id,
+							app_id=app.id,
+							user_id=user.id,
+							value=item.price,
+							date=datetime.now(),
+							reward=values['rewards'])
+		purchase_list_.append(purchase)
+		print(purchase)
+
+	except Exception as e:
+		print(e)
 
 
 if __name__ == '__main__':
