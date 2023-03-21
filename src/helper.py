@@ -1,14 +1,14 @@
-def get_item(item, item_list):
+def get_item(item_name, item_list):
 	"""
 	Return the item given the item name
-	:param item: str
+	:param item_name: str
 	:param item_list: list
-	:return: float
+	:return: Object Item
 	"""
 	for i in item_list:
-		if i.name == item:
+		if i.name == item_name:
 			return i
-	print('Item not found: ', item)
+	print('Item not found: ', item_name)
 	raise
 
 
@@ -17,7 +17,7 @@ def get_user(username, users_list):
 	Return the user given the username
 	:param username: str
 	:param users_list: list
-	:return: float
+	:return: Object User
 	"""
 	for i in users_list:
 		if i.name == username:
@@ -31,7 +31,7 @@ def search_app(appname, apps_list):
 	Return the user given the username
 	:param appname: str
 	:param apps_list: list
-	:return: float
+	:return: Object App
 	"""
 	for i in apps_list:
 		if i.name == appname:
@@ -46,7 +46,7 @@ def get_dev_by_appid(app_id, app_list, dev_list):
 	:param app_id: int
 	:param app_list: list[App]
 	:param dev_list: list[Dev]
-	:return: float
+	:return: Object Dev
 	"""
 	dev_id = 0
 	for each_app in app_list:
