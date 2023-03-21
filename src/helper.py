@@ -59,18 +59,3 @@ def get_dev_by_appid(app_id, app_list, dev_list):
 	print('Dev not found for app_id ', app_id)
 	raise
 
-
-def get_app_purchases_by_userid(app_id, user_id, purchase_list):
-	"""
-	Return the user given the app_id
-	:param app_id: int
-	:param user_id: int
-	:param purchase_list: list
-	:return: float
-	"""
-	count = 0
-	for i in purchase_list:
-		if i.app_id == app_id and i.user_id == user_id:
-			count += 1
-
-	return count

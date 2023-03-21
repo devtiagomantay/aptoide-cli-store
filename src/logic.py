@@ -1,6 +1,3 @@
-from helper import get_app_purchases_by_userid
-
-
 def get_percentage(purchase_amount):
 	"""
 	Get percentage of prices with/without reward
@@ -40,3 +37,19 @@ def calculate_prices(item, user_id, purchase_list):
 	reward = percentage if percentage < 100 else None
 
 	return {'price': final_price, 'dev': dev_total_value, 'store': store_total_value, 'rewards': reward}
+
+
+def get_app_purchases_by_userid(app_id, user_id, purchase_list):
+	"""
+	Return the user given the app_id
+	:param app_id: int
+	:param user_id: int
+	:param purchase_list: list
+	:return: float
+	"""
+	count = 0
+	for i in purchase_list:
+		if i.app_id == app_id and i.user_id == user_id:
+			count += 1
+
+	return count
