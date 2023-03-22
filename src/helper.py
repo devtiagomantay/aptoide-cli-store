@@ -36,7 +36,7 @@ def get_user(username, users_list):
 
 def search_app(appname, apps_list):
 	"""
-	Return the user given the username
+	Return the app object given the appname
 	:param appname: str
 	:param apps_list: list
 	:return: Object App

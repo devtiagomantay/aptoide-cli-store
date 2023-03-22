@@ -42,25 +42,16 @@ class TestGetItem:
 		assert get_item(item_list[1].name, item_list) == item_list[1]
 
 	def test_get_item__empty_item_list(self, item_list):
-		try:
+		with pytest.raises(RuntimeError):
 			item = get_item('Chess', [])
-			assert False
-		except RuntimeError:
-			assert True
 
 	def test_get_item__item_name_not_found(self, item_list):
-		try:
+		with pytest.raises(RuntimeError):
 			item = get_item('Doom', item_list)
-			assert False
-		except RuntimeError:
-			assert True
 
 	def test_get_item__invalid_item_list(self):
-		try:
+		with pytest.raises(AttributeError):
 			item = get_item('Chess', [1,2,3])
-			assert False
-		except AttributeError:
-			assert True
 
 
 class TestGetUser:
@@ -69,25 +60,16 @@ class TestGetUser:
 		assert get_user(users_list[1].name, users_list) == users_list[1]
 
 	def test_get_user__invalid_user(self, users_list):
-		try:
+		with pytest.raises(RuntimeError):
 			user = get_user('', users_list)
-			assert False
-		except RuntimeError:
-			assert True
 
 	def test_get_user__user_doesnt_exist(self, users_list):
-		try:
+		with pytest.raises(RuntimeError):
 			user = get_user('Linus', users_list)
-			assert False
-		except RuntimeError:
-			assert True
 
 	def test_get_user__invalid_user_list(self, users_list):
-		try:
+		with pytest.raises(AttributeError):
 			user = get_user('Linus', ['a','b'])
-			assert False
-		except AttributeError:
-			assert True
 
 
 class SearchApp:
@@ -96,18 +78,12 @@ class SearchApp:
 		assert search_app(app_list[1].name, app_list) == app_list[1]
 
 	def test_search_app__empty_app_list(self):
-		try:
-			dev = search_app('Chess', [])
-			assert False
-		except RuntimeError:
-			assert True
+		with pytest.raises(RuntimeError):
+			app = search_app('Chess', [])
 
 	def test_search_app__invalid_app_list(self):
-		try:
-			dev = search_app('Chess', [1, 2, 3])
-			assert False
-		except AttributeError:
-			assert True
+		with pytest.raises(AttributeError):
+			app = search_app('Chess', [1, 2, 3])
 
 
 class TestGetDevByAppid:
@@ -117,36 +93,21 @@ class TestGetDevByAppid:
 		assert get_dev_by_appid(app_list[2].id, app_list, dev_list) == dev_list[1]
 
 	def test_get_dev_by_appid__empty_app_list(self, app_list, dev_list):
-		try:
+		with pytest.raises(RuntimeError):
 			dev = get_dev_by_appid(1, [], dev_list)
-			assert False
-		except RuntimeError:
-			assert True
 
 	def test_get_dev_by_appid__empty_dev_list(self, app_list, dev_list):
-		try:
+		with pytest.raises(RuntimeError):
 			dev = get_dev_by_appid(1, app_list, [])
-			assert False
-		except RuntimeError:
-			assert True
 
 	def test_get_dev_by_appid__app_not_found(self, app_list, dev_list):
-		try:
+		with pytest.raises(RuntimeError):
 			dev = get_dev_by_appid(5, app_list, [])
-			assert False
-		except RuntimeError:
-			assert True
 
 	def test_get_dev_by_appid__invalid_app_list(self, dev_list):
-		try:
+		with pytest.raises(AttributeError):
 			dev = get_dev_by_appid(5, ['a', 'b'], dev_list)
-			assert False
-		except AttributeError:
-			assert True
 
 	def test_get_dev_by_appid__invalid_dev_list(self, app_list):
-		try:
+		with pytest.raises(AttributeError):
 			dev = get_dev_by_appid(5, app_list, ['a', 'b'])
-			assert False
-		except AttributeError:
-			assert True

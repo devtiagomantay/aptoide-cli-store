@@ -1,5 +1,5 @@
 # aptoide-cli-store
-Simple assignement to simulate purchases in the aptoide store
+Simple assignment to simulate purchases in the aptoide store
 
 
 ## Unit tests
