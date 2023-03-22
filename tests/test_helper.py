@@ -104,7 +104,7 @@ class SearchApp:
 
 	def test_search_app__invalid_app_list(self):
 		try:
-			dev = search_app('Chess', [])
+			dev = search_app('Chess', [1, 2, 3])
 			assert False
 		except AttributeError:
 			assert True
