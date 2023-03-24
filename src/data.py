@@ -1,4 +1,4 @@
-from models import *
+from src.models import *
 
 
 def create_dummy_data():
