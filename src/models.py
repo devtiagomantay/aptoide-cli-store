@@ -2,7 +2,7 @@ from datetime import datetime
 from pydantic import BaseModel
 
 
-class Purchase(BaseModel):
+class Transaction(BaseModel):
 	id: int
 	item_id: int
 	user_id: int
@@ -10,6 +10,7 @@ class Purchase(BaseModel):
 	value: float
 	date: datetime
 	reward: float = None
+	store: str
 
 
 class Item(BaseModel):
@@ -46,6 +47,9 @@ class User(BaseModel):
 			print('User have no founds. Balance: ', self.balance)
 			raise
 
+	def get_reward(self, reward_value):
+		self.balance = round(self.balance + reward_value, 2)
+
 
 class Store(BaseModel):
 	id: int
@@ -54,3 +58,6 @@ class Store(BaseModel):
 
 	def sell_item(self, value):
 		self.balance = round(self.balance + value, 2)
+
+	def give_reward(self, reward_value):
+		self.balance = round(self.balance - reward_value, 2)
