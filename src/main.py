@@ -1,10 +1,10 @@
-from data import create_dummy_data
-from logic import create_transaction, get_app, get_item, get_user, get_dev_by_appid, calculate_prices, \
+from src.data import create_dummy_data
+from src.logic import create_transaction, get_app, get_item, get_user, get_dev_by_appid, calculate_prices, \
 	get_reward_in_euros
-from helper import print_balance, print_reward_transaction, print_purchase_transaction, get_user_input
+from src.helper import print_balance, print_reward_transaction, print_purchase_transaction, get_user_input
 
 
-if __name__ == '__main__':
+def transaction():
 	data_ = create_dummy_data()
 	while 1:
 		try:
@@ -23,8 +23,7 @@ if __name__ == '__main__':
 			dev.sell_item(purchase_values['dev'])
 
 			transaction_info = {'purchase_values': purchase_values, 'purchase_total': len(data_['transactions']),
-								'item_id': item.id,
-								'app_id': app.id, 'user_id': user.id, 'store': store.name}
+								'item_id': item.id, 'app_id': app.id, 'user_id': user.id, 'store': store.name}
 
 			transaction = create_transaction(transaction_info)
 
@@ -46,6 +45,7 @@ if __name__ == '__main__':
 				# store the reward transaction
 				data_['transactions'].append(reward_transaction)
 
+				print('#########')
 				print_reward_transaction(reward_transaction=reward_transaction, user=user)
 				print_balance({'user': user, 'store': store})
 
