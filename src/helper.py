@@ -14,16 +14,20 @@ def print_balance(info):
 	output = f'BALANCE => {info["user"].name}: €{formatter(info["user"].balance)}; '
 	if 'dev' in info.keys():
 		output += f'{info["dev"].name}: €{formatter(info["dev"].balance)}; '
-	output += f'{info["store"].name}: €{formatter(info["store"].balance)}\n'
+	output += f'{info["store"].name}: €{formatter(info["store"].balance)}'
 	print(output)
 
 
 def print_reward_transaction(reward_transaction, user):
-	print('#########')
 	print(f'REWARD TRANSACTION => id: {reward_transaction.id}; '
 		  f'amount: €{formatter(reward_transaction.value)}; '
 		  f'sender: {reward_transaction.store}; '
 		  f'receivers: {{{user.name}: €{formatter(reward_transaction.value)}}}')
+
+
+def get_input():
+	print('\n')
+	return input('Enter the app, item and user: ')
 
 
 def get_user_input():
@@ -31,7 +35,7 @@ def get_user_input():
 	Function to get the user input and validate
 	:return: dict
 	"""
-	input_ = input('Enter the app, item and user: ')
+	input_ = get_input()
 	input_list = input_.split()
 	if len(input_list) != 3:
 		print('Invalid values')
