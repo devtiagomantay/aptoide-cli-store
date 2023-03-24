@@ -39,16 +39,16 @@ def calculate_prices(item, user_id, purchase_list):
 	return {'price': final_price, 'dev': dev_total_value, 'store': store_total_value, 'rewards': reward}
 
 
-def get_app_purchases_by_userid(app_id, user_id, purchase_list):
+def get_app_purchases_by_userid(app_id, user_id, transaction_list):
 	"""
 	Return the user given the app_id
 	:param app_id: int
 	:param user_id: int
-	:param purchase_list: list
+	:param transaction_list: list
 	:return: float
 	"""
 	count = 0
-	for i in purchase_list:
+	for i in transaction_list:
 		if i.app_id == app_id and i.user_id == user_id:
 			count += 1
 
@@ -63,17 +63,6 @@ def create_transaction(purchase_info):
 	:return: obj class Purchase
 	"""
 	try:
-		# app = search_app(pi['app'], data['apps'])
-		# item = get_item(pi['item'], data['items'])
-		# user = get_user(pi['user'], data['users'])
-		# dev = get_dev_by_appid(app.id, data['apps'], data['devs'])
-		# store = data['store']
-		# values = calculate_prices(item, dev.id, data['purchases'])
-		#
-		# user.purchase_app(values['price'])
-		# store.sell_item(values['store'])
-		# dev.sell_item(values['dev'])
-
 		purchase = Transaction(id=purchase_info['purchase_total'] + 1,
 							   item_id=purchase_info['item_id'],
 							   app_id=purchase_info['app_id'],
@@ -84,12 +73,12 @@ def create_transaction(purchase_info):
 							   store=purchase_info['store'])
 		return purchase
 
-	except Exception as e:
-		# log error
+	except Exception:
+		print('An error occurred when creating the transaction')
 		pass
 
 
-def create_reward_purchase(purchase_info):
+def create_reward_transaction(purchase_info):
 	from models import Transaction
 	"""
 	Creates the reward purchase
@@ -97,17 +86,6 @@ def create_reward_purchase(purchase_info):
 	:return: obj class Purchase
 	"""
 	try:
-		# app = search_app(pi['app'], data['apps'])
-		# item = get_item(pi['item'], data['items'])
-		# user = get_user(pi['user'], data['users'])
-		# dev = get_dev_by_appid(app.id, data['apps'], data['devs'])
-		# store = data['store']
-		# values = calculate_prices(item, dev.id, data['purchases'])
-		#
-		# user.purchase_app(values['price'])
-		# store.sell_item(values['store'])
-		# dev.sell_item(values['dev'])
-
 		purchase = Transaction(id=purchase_info['purchase_total'] + 1,
 							   item_id=purchase_info['item_id'],
 							   app_id=purchase_info['app_id'],
@@ -198,3 +176,6 @@ def get_dev_by_appid(app_id, app_list, dev_list):
 	print('Dev not found for app_id ', app_id)
 	raise
 
+
+def get_reward_in_euros(purchase_values):
+	return purchase_values['price'] * purchase_values['rewards']
