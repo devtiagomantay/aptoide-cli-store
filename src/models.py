@@ -60,4 +60,8 @@ class Store(BaseModel):
 		self.balance = round(self.balance + value, 2)
 
 	def give_reward(self, reward_value):
-		self.balance = round(self.balance - reward_value, 2)
+		if self.balance >= reward_value:
+			self.balance = round(self.balance - reward_value, 2)
+		else:
+			print('The store have no founds. Balance: ', self.balance)
+			raise
