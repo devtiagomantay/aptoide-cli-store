@@ -62,3 +62,4 @@ Run unit tests
 
 
 ## Class diagram
+![alt text](https://github.com/devtiagomantay/aptoide-cli-store/blob/main/docs/uml%20diagram.png?raw=true)
