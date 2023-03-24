@@ -1,11 +1,11 @@
 from datetime import datetime
 
 
-def get_reward(purchase_amount):
+def get_reward_percentage(purchase_amount):
 	"""
-	Get percentage of prices with/without reward
+	Get percentage of the reward
 	:param purchase_amount:
-	:return: int
+	:return: float
 	"""
 	if purchase_amount < 1:
 		return None
@@ -29,8 +29,8 @@ def calculate_prices(item, user_id, purchase_list):
 	"""
 	DEV_SHARE = 0.75
 	STORE_SHARE = 0.25
-	purchase_amount = get_app_purchases_by_userid(item.app_id, user_id, purchase_list)
-	reward = get_reward(purchase_amount)
+	purchase_amount = get_amount_app_purchases_by_userid(item.app_id, user_id, purchase_list)
+	reward = get_reward_percentage(purchase_amount)
 
 	final_price = round(item.price, 2)
 	dev_total_value = round(final_price * DEV_SHARE, 2)
@@ -39,9 +39,9 @@ def calculate_prices(item, user_id, purchase_list):
 	return {'price': final_price, 'dev': dev_total_value, 'store': store_total_value, 'rewards': reward}
 
 
-def get_app_purchases_by_userid(app_id, user_id, transaction_list):
+def get_amount_app_purchases_by_userid(app_id, user_id, transaction_list):
 	"""
-	Return the user given the app_id
+	Return the amount of purchases of the user given in a app
 	:param app_id: int
 	:param user_id: int
 	:param transaction_list: list
@@ -55,49 +55,27 @@ def get_app_purchases_by_userid(app_id, user_id, transaction_list):
 	return count
 
 
-def create_transaction(purchase_info):
-	from models import Transaction
+def create_transaction(transaction_info):
+	from src.models import Transaction
 	"""
 	Creates the purchase
 	:param pi: dict
 	:return: obj class Purchase
 	"""
 	try:
-		purchase = Transaction(id=purchase_info['purchase_total'] + 1,
-							   item_id=purchase_info['item_id'],
-							   app_id=purchase_info['app_id'],
-							   user_id=purchase_info['user_id'],
-							   value=purchase_info['purchase_values']['price'],
+		purchase = Transaction(id=transaction_info['purchase_total'] + 1,
+							   item_id=transaction_info['item_id'],
+							   app_id=transaction_info['app_id'],
+							   user_id=transaction_info['user_id'],
+							   value=transaction_info['purchase_values']['price'],
 							   date=datetime.now(),
-							   reward=purchase_info['purchase_values']['rewards'],
-							   store=purchase_info['store'])
+							   reward=transaction_info['purchase_values']['rewards'],
+							   store=transaction_info['store'])
 		return purchase
 
-	except Exception:
-		print('An error occurred when creating the transaction')
-		pass
-
-
-def create_reward_transaction(purchase_info):
-	from models import Transaction
-	"""
-	Creates the reward purchase
-	:param pi: dict
-	:return: obj class Purchase
-	"""
-	try:
-		purchase = Transaction(id=purchase_info['purchase_total'] + 1,
-							   item_id=purchase_info['item_id'],
-							   app_id=purchase_info['app_id'],
-							   user_id=purchase_info['user_id'],
-							   value=purchase_info['purchase_values']['price'],
-							   date=datetime.now(),
-							   reward=purchase_info['purchase_values']['rewards'])
-		return purchase
-
-	except Exception as e:
-		# log error
-		pass
+	except KeyError:
+		print('An error occurred when creating the transaction: ')
+		raise
 
 
 def get_item(item_name, item_list):
