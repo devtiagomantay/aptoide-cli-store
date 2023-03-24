@@ -1,8 +1,7 @@
 import pytest
-from src.logic import calculate_prices, get_app_purchases_by_userid, get_percentage
 from datetime import datetime
-from src.models import Purchase
-from src.models import Item
+from src.logic import *
+from src.models import *
 
 
 @pytest.fixture()
@@ -17,32 +16,65 @@ def item_list():
 def purchase_list():
 	# user1 = 1 purchase, user2 = 2 purchases, user3 = 10 purchases on app_id = 1
 	purchase_list = [
-		Purchase(id=1, item_id=1, app_id=1, user_id=1, value=2.0, date=datetime.now(), reward=None),
-		Purchase(id=2, item_id=1, app_id=1, user_id=2, value=2.0, date=datetime.now(), reward=None),
-		Purchase(id=3, item_id=1, app_id=1, user_id=2, value=1.9, date=datetime.now(), reward=95),
-		Purchase(id=4, item_id=1, app_id=1, user_id=3, value=2.0, date=datetime.now(), reward=None),
-		Purchase(id=5, item_id=1, app_id=1, user_id=3, value=1.9, date=datetime.now(), reward=95),
-		Purchase(id=6, item_id=2, app_id=1, user_id=3, value=1.9, date=datetime.now(), reward=95),
-		Purchase(id=7, item_id=1, app_id=1, user_id=3, value=1.9, date=datetime.now(), reward=95),
-		Purchase(id=8, item_id=1, app_id=1, user_id=3, value=1.9, date=datetime.now(), reward=95),
-		Purchase(id=9, item_id=1, app_id=1, user_id=3, value=1.9, date=datetime.now(), reward=95),
-		Purchase(id=10, item_id=1, app_id=1, user_id=3, value=1.9, date=datetime.now(), reward=95),
-		Purchase(id=11, item_id=1, app_id=1, user_id=3, value=1.9, date=datetime.now(), reward=95),
-		Purchase(id=12, item_id=2, app_id=1, user_id=3, value=1.9, date=datetime.now(), reward=95),
-		Purchase(id=13, item_id=3, app_id=2, user_id=3, value=2.0, date=datetime.now(), reward=None),
-		Purchase(id=14, item_id=2, app_id=1, user_id=3, value=1.8, date=datetime.now(), reward=90)]
+		Transaction(id=1, item_id=1, app_id=1, user_id=1, value=2.0, date=datetime.now(), reward=None),
+		Transaction(id=2, item_id=1, app_id=1, user_id=2, value=2.0, date=datetime.now(), reward=None),
+		Transaction(id=3, item_id=1, app_id=1, user_id=2, value=1.9, date=datetime.now(), reward=95),
+		Transaction(id=4, item_id=1, app_id=1, user_id=3, value=2.0, date=datetime.now(), reward=None),
+		Transaction(id=5, item_id=1, app_id=1, user_id=3, value=1.9, date=datetime.now(), reward=95),
+		Transaction(id=6, item_id=2, app_id=1, user_id=3, value=1.9, date=datetime.now(), reward=95),
+		Transaction(id=7, item_id=1, app_id=1, user_id=3, value=1.9, date=datetime.now(), reward=95),
+		Transaction(id=8, item_id=1, app_id=1, user_id=3, value=1.9, date=datetime.now(), reward=95),
+		Transaction(id=9, item_id=1, app_id=1, user_id=3, value=1.9, date=datetime.now(), reward=95),
+		Transaction(id=10, item_id=1, app_id=1, user_id=3, value=1.9, date=datetime.now(), reward=95),
+		Transaction(id=11, item_id=1, app_id=1, user_id=3, value=1.9, date=datetime.now(), reward=95),
+		Transaction(id=12, item_id=2, app_id=1, user_id=3, value=1.9, date=datetime.now(), reward=95),
+		Transaction(id=13, item_id=3, app_id=2, user_id=3, value=2.0, date=datetime.now(), reward=None),
+		Transaction(id=14, item_id=2, app_id=1, user_id=3, value=1.8, date=datetime.now(), reward=90)]
 	yield purchase_list
+
+
+@pytest.fixture()
+def item_list():
+	item_list = [
+		Item(id=1, app_id=1, name='Premium', price=2.0),
+		Item(id=3, app_id=2, name='Coin', price=1.0)]
+	yield item_list
+
+
+@pytest.fixture()
+def users_list():
+	users_list = [
+		User(id=1, name='Bob', balance=100.0),
+		User(id=2, name='Bill', balance=10.0)]
+	yield users_list
+
+
+@pytest.fixture()
+def dev_list():
+	dev_list = [
+		Dev(id=1, name='Billy', balance=10.0),
+		Dev(id=2, name='Joe', balance=10.0)]
+	yield dev_list
+
+
+@pytest.fixture()
+def app_list():
+	app_list = [
+		App(id=1, dev_id=1, name='Chess'),
+		App(id=2, dev_id=1, name='Notepad'),
+		App(id=3, dev_id=2, name='GTA')]
+	yield app_list
 
 
 class TestGetPercentage:
 	def test_get_percentage(self, purchase_list):
-		assert get_percentage(purchase_amount=0) == 100
-		assert get_percentage(purchase_amount=1) == 95
-		assert get_percentage(purchase_amount=2) == 95
-		assert get_percentage(purchase_amount=3) == 95
-		assert get_percentage(purchase_amount=4) == 95
-		assert get_percentage(purchase_amount=10) == 90
-		assert get_percentage(purchase_amount=24) == 90
+		assert get_reward(purchase_amount=0) == 100
+		assert get_reward(purchase_amount=1) == 95
+		assert get_reward(purchase_amount=2) == 95
+		assert get_reward(purchase_amount=3) == 95
+		assert get_reward(purchase_amount=4) == 95
+		assert get_reward(purchase_amount=10) == 90
+		assert get_reward(purchase_amount=24) == 90
 
 
 class TestGetAppPurchasesByUserId:
@@ -54,7 +86,7 @@ class TestGetAppPurchasesByUserId:
 		assert get_app_purchases_by_userid(app_id=2, user_id=3, purchase_list=purchase_list) == 1
 
 
-class TestLogicCalculatePrices:
+class TestCalculatePrices:
 	def test_calculate_prices_without_discount_app1(self, mocker, item_list, purchase_list):
 		mocker.patch("src.logic.get_app_purchases_by_userid", return_value=1)
 		mocker.patch("src.logic.get_percentage", return_value=100)
@@ -82,6 +114,92 @@ class TestLogicCalculatePrices:
 		user_id = 3
 		result = {'price': 1.8, 'dev': 1.35, 'store': 0.45, 'rewards': 90}
 		assert calculate_prices(item_list[0], user_id, purchase_list) == result, "Value should be mocked"
+
+	class TestGetItem:
+		def test_get_item(self, item_list):
+			assert get_item(item_list[0].name, item_list) == item_list[0]
+			assert get_item(item_list[1].name, item_list) == item_list[1]
+
+		def test_get_item__empty_item_list(self, item_list):
+			with pytest.raises(RuntimeError):
+				item = get_item('Chess', [])
+
+		def test_get_item__item_name_not_found(self, item_list):
+			with pytest.raises(RuntimeError):
+				item = get_item('Doom', item_list)
+
+		def test_get_item__invalid_item_list(self):
+			with pytest.raises(AttributeError):
+				item = get_item('Chess', [1,2,3])
+
+
+	class TestGetUser:
+		def test_get_user(self, users_list):
+			assert get_user(users_list[0].name, users_list) == users_list[0]
+			assert get_user(users_list[1].name, users_list) == users_list[1]
+
+		def test_get_user__invalid_user(self, users_list):
+			with pytest.raises(RuntimeError):
+				user = get_user('', users_list)
+
+		def test_get_user__user_doesnt_exist(self, users_list):
+			with pytest.raises(RuntimeError):
+				user = get_user('Linus', users_list)
+
+		def test_get_user__invalid_user_list(self, users_list):
+			with pytest.raises(AttributeError):
+				user = get_user('Linus', ['a','b'])
+
+
+	class SearchApp:
+		def test_search_app(self, app_list):
+			assert get_app(app_list[0].name, app_list) == app_list[0]
+			assert get_app(app_list[1].name, app_list) == app_list[1]
+
+		def test_search_app__empty_app_list(self):
+			with pytest.raises(RuntimeError):
+				app = get_app('Chess', [])
+
+		def test_search_app__invalid_app_list(self):
+			with pytest.raises(AttributeError):
+				app = get_app('Chess', [1, 2, 3])
+
+
+	class TestGetDevByAppid:
+		def test_get_dev_by_appid(self, app_list, dev_list):
+			assert get_dev_by_appid(app_list[0].id, app_list, dev_list) == dev_list[0]
+			assert get_dev_by_appid(app_list[1].id, app_list, dev_list) == dev_list[0]
+			assert get_dev_by_appid(app_list[2].id, app_list, dev_list) == dev_list[1]
+
+		def test_get_dev_by_appid__empty_app_list(self, app_list, dev_list):
+			with pytest.raises(RuntimeError):
+				dev = get_dev_by_appid(1, [], dev_list)
+
+		def test_get_dev_by_appid__empty_dev_list(self, app_list, dev_list):
+			with pytest.raises(RuntimeError):
+				dev = get_dev_by_appid(1, app_list, [])
+
+		def test_get_dev_by_appid__app_not_found(self, app_list, dev_list):
+			with pytest.raises(RuntimeError):
+				dev = get_dev_by_appid(5, app_list, [])
+
+		def test_get_dev_by_appid__invalid_app_list(self, dev_list):
+			with pytest.raises(AttributeError):
+				dev = get_dev_by_appid(5, ['a', 'b'], dev_list)
+
+		def test_get_dev_by_appid__invalid_dev_list(self, app_list):
+			with pytest.raises(AttributeError):
+				dev = get_dev_by_appid(5, app_list, ['a', 'b'])
+
+
+class TestPurchase:
+	def test_purchase(self, mocker, purchase_list, dev_list, app_list, users_list, item_list):
+		mocker.patch("src.logic.search_app", return_value=app_list[0])
+		mocker.patch("src.logic.get_item", return_value=item_list[0])
+		mocker.patch("src.logic.get_user", return_value=users_list[0])
+		mocker.patch("src.logic.search_app", return_value=app_list[0])
+		mocker.patch("src.logic.calculate_prices", return_value={'price': 2.0, 'dev': 1.5, 'store': 0.5, 'rewards': None})
+		assert create_transaction() == Transaction()
 
 	def teardown_method(cls):
 		pass
