@@ -57,7 +57,8 @@ Run unit tests
 
 ### Test coverage
  
-> pip install pytest.cov 
+> pip install pytest.cov
+
 > pytest --cov=.
 
 
